@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | SISTEMA DE GESTÃO SIGESAMU</title>
+
+    <script>
+        function realizarLogin(event) {
+            event.preventDefault();
+            sessionStorage.setItem("usuarioLogado", "true");
+            sessionStorage.setItem("nomeUsuario", "Operador SAMU");
+            window.location.href = "pagina_inicial_sigesamu.html";
+        }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #d3080c;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            padding: 40px 30px;
+            border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .logo-img {
+            max-width: 180px;
+            height: auto;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        .system-title {
+            color: #d3080c;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .welcome-text {
+            color: #777777;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: #333333;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: #d3080c;
+            box-shadow: 0 0 0 2px rgba(211, 8, 12, 0.15);
+        }
+
+        .form-control::placeholder {
+            color: #a0a0a0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-submit {
+            align-self: flex-end;
+            background-color: #bb0609;
+            color: #ffffff;
+            border: none;
+            padding: 10px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #990003;
+        }
+
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 25px 20px;
+            }
+
+            .btn-submit {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="login-card">
+        <img src="logo/logo_sigesamu.png" alt="Logo SIGESAMU" class="logo-img">
+
+        <h1 class="system-title">SIGESAMU</h1>
+        <p class="welcome-text">Bem-vindo à área restrita,<br>Faça login em sua conta.</p>
+
+        <form onsubmit="realizarLogin(event)">
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="Email Corporativo" required>
+            </div>
+
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Senha" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Acessar</button>
+        </form>
+    </main>
+
+</body>
+</html>

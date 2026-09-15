@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGESAMU 192 - Serviço de Atendimento Móvel de Urgência</title>
+
+    <script>
+        function fazerLogout() {
+            sessionStorage.clear();
+            window.location.href = "login.html";
+        }
+    </script>
+
+    <style>
+        :root {
+            --samu-red: #cc0000;
+            --samu-red-hover: #b30000;
+            --samu-orange-overlay: rgba(230, 81, 0, 0.82);
+            --restricted-bg: #fdf0f0;
+            --restricted-hover: #fbe0e0;
+            --text-dark: #333333;
+            --text-nav: #555555;
+            --bg-light: #f8f9fa;
+            --font-sans: 'Open Sans', system-ui, -apple-system, sans-serif;
+            --font-serif: 'Merriweather', Georgia, serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-dark);
+            background-color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background-color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border-top: 3px solid var(--samu-red);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 30px;
+            max-width: 100%;
+        }
+
+        .header-content {
+            max-width: 1320px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 55px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: var(--text-nav);
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-item a:hover {
+            color: var(--samu-red);
+        }
+
+        .nav-item.restricted-link a {
+            background-color: var(--restricted-bg);
+            color: var(--samu-red);
+            padding: 24px 20px;
+            margin-right: -30px;
+            font-weight: 600;
+            display: inline-block;
+            transition: background-color 0.2s ease;
+        }
+
+        .nav-item.restricted-link a:hover {
+            background-color: var(--restricted-hover);
+        }
+
+        .mobile-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .hero-banner {
+            width: 100%;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            background: linear-gradient(0deg, var(--samu-orange-overlay), var(--samu-orange-overlay)),
+                        url('logo/ambulancia.avif') center/cover no-repeat;
+        }
+
+        .hero-red-box {
+            background-color: var(--samu-red);
+            color: #ffffff;
+            padding: 60px 48px 50px 48px;
+            width: 100%;
+            max-width: 580px;
+            margin: 0 auto 0 calc((100vw - 1320px) / 2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 1380px) {
+            .hero-red-box {
+                margin-left: 0;
+            }
+        }
+
+        .hero-headline {
+            font-family: var(--font-serif);
+            font-size: 2.35rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 40px;
+            color: #ffffff;
+            letter-spacing: -0.2px;
+        }
+
+        .hero-button {
+            display: inline-block;
+            background-color: #ffffff;
+            color: var(--samu-red);
+            padding: 12px 36px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .hero-button:hover {
+            background-color: #f0f0f0;
+            color: var(--samu-red-hover);
+            transform: translateY(-1px);
+        }
+
+        .features-section {
+            padding: 60px 30px;
+            background-color: var(--bg-light);
+        }
+
+        .section-heading {
+            font-size: 1.6rem;
+            color: var(--text-dark);
+            margin-bottom: 35px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .features-grid {
+            max-width: 1320px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background-color: #ffffff;
+            border-radius: 4px;
+            padding: 28px 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            border-top: 4px solid var(--samu-red);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .card-icon {
+            width: 38px;
+            height: 38px;
+            fill: var(--samu-red);
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .card-text {
+            font-size: 0.92rem;
+            color: #666666;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .card-link {
+            color: var(--samu-red);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .card-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 45px 30px 25px 30px;
+        }
+
+        .footer-grid {
+            max-width: 1320px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #333333;
+        }
+
+        .footer-col h4 {
+            font-size: 1.05rem;
+            margin-bottom: 16px;
+            color: #ffffff;
+            border-bottom: 2px solid var(--samu-red);
+            padding-bottom: 6px;
+            display: inline-block;
+        }
+
+        .footer-col p, .footer-col a {
+            color: #aaaaaa;
+            font-size: 0.88rem;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .footer-col a:hover {
+            color: #ffffff;
+        }
+
+        .footer-copyright {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.82rem;
+            color: #777777;
+        }
+
+        @media (max-width: 1100px) {
+            .nav-item.restricted-link a {
+                margin-right: 0;
+                padding: 10px 14px;
+                border-radius: 4px;
+            }
+        }
+
+        @media (max-width: 960px) {
+            .mobile-btn {
+                display: block;
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #ffffff;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                display: none;
+                padding: 10px 0;
+                border-top: 1px solid #eee;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .nav-item a {
+                display: block;
+                padding: 14px 24px;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .nav-item.restricted-link a {
+                margin: 10px 24px;
+                text-align: center;
+                width: calc(100% - 48px);
+                border-radius: 4px;
+            }
+
+            .hero-red-box {
+                max-width: 100%;
+                padding: 40px 30px;
+            }
+
+            .hero-headline {
+                font-size: 1.85rem;
+            }
+        }
+
+        @media (max-width: 540px) {
+            header {
+                padding: 10px 16px;
+            }
+
+            .logo-img {
+                height: 42px;
+            }
+
+            .hero-banner {
+                min-height: 400px;
+                padding: 0 15px;
+            }
+
+            .hero-red-box {
+                padding: 30px 20px;
+            }
+
+            .hero-headline {
+                font-size: 1.45rem;
+                margin-bottom: 25px;
+            }
+
+            .hero-button {
+                padding: 10px 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="pagina_inicial_sigesamu.html" class="logo-link" title="SIGESAMU - Página Inicial">
+                <img src="logo/logo_sigesamu.png" alt="SIGESAMU Logo" class="logo-img">
+            </a>
+
+            <button class="mobile-btn" id="mobileMenuBtn" aria-label="Abrir Menu de Navegação">
+                &#9776;
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="pagina_inicial_sigesamu.html">Home</a></li>
+                <li class="nav-item restricted-link"><a href="#" onclick="fazerLogout()">Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-banner">
+            <article class="hero-red-box">
+                <h1 class="hero-headline">
+                    Inovação e excelência na gestão do atendimento móvel de urgência
+                </h1>
+                <a href="ocorrencia.html" class="hero-button">Acessar Ocorrências</a>
+            </article>
+        </section>
+
+        <section class="features-section">
+            <h2 class="section-heading">Acesso Rápido e Serviços</h2>
+            
+            <div class="features-grid">
+                <article class="feature-card">
+                    <svg class="card-icon" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                    </svg>
+                    <h3 class="card-title">Atendimento & Ocorrências</h3>
+                    <p class="card-text">Gerencie os chamados e orientações de atendimento de urgência.</p>
+                    <a href="ocorrencia.html" class="card-link">Acessar painel &rarr;</a>
+                </article>
+
+                <article class="feature-card">
+                    <svg class="card-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <h3 class="card-title">Pesquisar Chamados</h3>
+                    <p class="card-text">Consulte histórico de ocorrências por protocolo, data ou tipo.</p>
+                    <a href="pesquisa-ocorrencias.html" class="card-link">Buscar chamados &rarr;</a>
+                </article>
+
+                <article class="feature-card">
+                    <svg class="card-icon" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                    </svg>
+                    <h3 class="card-title">Cadastro de Pacientes</h3>
+                    <p class="card-text">Registre informações pessoais, CPF e Cartão SUS dos pacientes.</p>
+                    <a href="paciente.html" class="card-link">Cadastrar paciente &rarr;</a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>SIGESAMU</h4>
+                <p>Sistema de Gestão do Serviço de Atendimento Móvel de Urgência.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Links Rápidos</h4>
+                <a href="pagina_inicial_sigesamu.html">Home</a>
+                <a href="ocorrencia.html">Ocorrências</a>
+                <a href="paciente.html">Cadastro de Paciente</a>
+            </div>
+            <div class="footer-col">
+                <h4>Canais de Atendimento</h4>
+                <a href="pesquisa-ocorrencias.html">Pesquisa de Ocorrências</a>
+                <a href="login.html">Área Restrita do Servidor</a>
+            </div>
+        </div>
+        <p class="footer-copyright">&copy; 2026 SIGESAMU - Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.getElementById('navMenu');
+
+            if (mobileBtn && navMenu) {
+                mobileBtn.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
